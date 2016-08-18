@@ -84,7 +84,7 @@ class ProductionConfig(Config):
                                     credentials=credentials,
                                     secure=secure
                                     )
-        mail_handler.setlevel(logging.ERROR)
+        mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
 class HerokuConfig(ProductionConfig):
