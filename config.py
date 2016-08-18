@@ -33,7 +33,7 @@ class Config:
     FLASKY_POSTS_PER_PAGE=5
     FLASKY_FOLLOWERS_PER_PAGE=5
     FLASKY_COMMENTS_PER_PAGE=5
-    
+    SSL_DISABLE=False
     FLASK_SLOW_DB_QUERY_TIME=0.5
     SQLALCHEMY_RECORD_QUERIES=True
     #静态方法可以在不创建类的实例的情况下使用类的方法
@@ -76,7 +76,7 @@ class ProductionConfig(Config):
             credentials=(cls.MAIL_USERNAME,cls.MAIL_PASSWORD)
             if getattr(cls,'MAIL_USE_TLS',None):
                 secure=()
-            mail_handler=STMPHandler(
+        mail_handler=STMPHandler(
                                     mailhost=(cls.MAIL_SERVER,cls.MAIL_PORT),
                                     fromaddr=cls.FLASKY_MAIL_SENDER,
                                     toaddr=[cls.FLASKY_ADMIN],
@@ -84,8 +84,8 @@ class ProductionConfig(Config):
                                     credentials=credentials,
                                     secure=secure
                                     )
-           mail_handler.setlevel(logging.ERROR)
-           app.logger.addHandler(mail_handler)
+        mail_handler.setlevel(logging.ERROR)
+        app.logger.addHandler(mail_handler)
 
 class HerokuConfig(ProductionConfig):
     SSL_DISABLE=bool(os.environ.get('SSL_DISABLE'))
