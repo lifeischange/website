@@ -101,7 +101,7 @@ class HerokuConfig(ProductionConfig):
         import logging
         from logging import StreamHandler
         file_handler=StreamHandler()
-        file_handler.setlevel(logging.WARNING)
+        file_handler.setLevel(logging.WARNING)
         app.logger.addHandler(file_handler)
         
 #包的字典
