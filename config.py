@@ -77,7 +77,7 @@ class ProductionConfig(Config):
             credentials=(cls.MAIL_USERNAME,cls.MAIL_PASSWORD)
             if getattr(cls,'MAIL_USE_TLS',None):
                 secure=()
-        mail_handler=STMPHandler(
+        mail_handler=SMTPHandler(
                                     mailhost=(cls.MAIL_SERVER,cls.MAIL_PORT),
                                     fromaddr=cls.FLASKY_MAIL_SENDER,
                                     toaddrs=[cls.FLASKY_ADMIN],
