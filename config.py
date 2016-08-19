@@ -36,6 +36,8 @@ class Config:
     SSL_DISABLE=False
     FLASK_SLOW_DB_QUERY_TIME=0.5
     SQLALCHEMY_RECORD_QUERIES=True
+    
+    DATABASE_URL='postgres://enzgtccccwfxkd:900VfwDJZaIhV2LhR470jYcEmr@ec2-23-21-179-195.compute-1.amazonaws.com:5432/d7im2k4q6iem5p'
     #静态方法可以在不创建类的实例的情况下使用类的方法
     @staticmethod
     def init_app(app):
