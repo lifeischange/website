@@ -33,11 +33,10 @@ class Config:
     FLASKY_POSTS_PER_PAGE=5
     FLASKY_FOLLOWERS_PER_PAGE=5
     FLASKY_COMMENTS_PER_PAGE=5
-    SSL_DISABLE=False
+    
     FLASK_SLOW_DB_QUERY_TIME=0.5
     SQLALCHEMY_RECORD_QUERIES=True
-    
-    DATABASE_URL='postgres://enzgtccccwfxkd:900VfwDJZaIhV2LhR470jYcEmr@ec2-23-21-179-195.compute-1.amazonaws.com:5432/d7im2k4q6iem5p'
+    DATABASE_URL=os.environ.get('DATABASE_URL')
     #静态方法可以在不创建类的实例的情况下使用类的方法
     @staticmethod
     def init_app(app):
@@ -62,12 +61,12 @@ class TestingConfig(Config):
         
 #生产包
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or \
-        'sqlite:///'+os.path.join(basedir,'data.sqlite')
+    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') #or \
+        #'sqlite:///'+os.path.join(basedir,'data.sqlite')
         
     @classmethod
     def init_app(cls,app):
-        Config.init_app(app)
+        config.init_app(app)
         
         #错误发送给管理员
         import logging
@@ -78,15 +77,15 @@ class ProductionConfig(Config):
             credentials=(cls.MAIL_USERNAME,cls.MAIL_PASSWORD)
             if getattr(cls,'MAIL_USE_TLS',None):
                 secure=()
-        mail_handler=SMTPHandler(
+        mail_handler=STMPHandler(
                                     mailhost=(cls.MAIL_SERVER,cls.MAIL_PORT),
                                     fromaddr=cls.FLASKY_MAIL_SENDER,
-                                    toaddrs=[cls.FLASKY_ADMIN],
+                                    toaddr=[cls.FLASKY_ADMIN],
                                     subject=cls.FLASKY_MAIL_SUBJECT_PREFIX+'Application Error',
                                     credentials=credentials,
                                     secure=secure
                                     )
-        mail_handler.setLevel(logging.ERROR)
+        mail_handler.setlevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
 class HerokuConfig(ProductionConfig):
@@ -103,7 +102,7 @@ class HerokuConfig(ProductionConfig):
         import logging
         from logging import StreamHandler
         file_handler=StreamHandler()
-        file_handler.setLevel(logging.WARNING)
+        file_handler.setlevel(logging.WARNING)
         app.logger.addHandler(file_handler)
         
 #包的字典

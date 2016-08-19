@@ -1,1 +1,1 @@
-web:gunicorn manage:naruto
+web gunicorn manage:naruto

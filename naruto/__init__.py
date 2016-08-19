@@ -35,10 +35,6 @@ def create_app(config_name):
     login_manager.init_app(app)
     pagedown.init_app(app)
     
-    if not app.debug and app.testing and not app.config['SSL_DISABLE']:
-        from flask_sslify import SSLify
-        sslify=SSLify(app)
-        
     #注册路由主体蓝本，即访问蓝本后第一个页面 第一个是文件夹，第二个是蓝本实例
     from .main import main as main_blueprint
     #注册蓝本
