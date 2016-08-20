@@ -33,7 +33,7 @@ def login():
         if user is not None and user.verify_password(form.password.data):
             login_user(user,form.remember_me.data)
             return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.')
+        flash('用户名或密码不正确.')
     return render_template('auth/login.html',form=form)
     
 #这是登出视图文件
@@ -42,7 +42,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('你已经退出.')
     return redirect(url_for('main.index'))
     
 #注册路由
@@ -54,8 +54,8 @@ def register():
         db.session.add(user)
         db.session.commit()
         token=user.generate_confirmation_token()
-        send_email(user.email,'Confirm Your Account','auth/email/confirm',user=user,token=token)
-        flash('A confirmation email has been sent to your email.')
+        send_email(user.email,'账号认证','auth/email/confirm',user=user,token=token)
+        flash('认证邮件已经给发送到你的邮箱.')
         return redirect(url_for('main.index'))
         
     return render_template('auth/register.html',form=form)
@@ -67,9 +67,9 @@ def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
-        flash('You have confirmed your account.Thanks!')
+        flash('账户已认证')
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('认证连接超时,已失效.')
     return redirect(url_for('main.index'))        
         
 #过滤未确认的用户
@@ -90,8 +90,8 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
     token=current_user.generate_confirmation_token()
-    send_email(current_user.email,'Confirm Your Account','auth/email/confirm',user=current_user,token=token)
-    flash('A new confirmation email has been sent to you by email.')
+    send_email(current_user.email,'认证账号','auth/email/confirm',user=current_user,token=token)
+    flash('已经给你的邮箱发了一份新的认证邮件.')
     return redirect(url_for('main.index'))
     
 #修改密码
@@ -103,10 +103,10 @@ def change_password():
         if current_user.verify_password(form.old_password.data):
             current_user.password=form.password.data
             db.session.add(current_user)
-            flash('Your password has been updated.')
+            flash('密码修改成功.')
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid password.')
+            flash('原密码不正确')
     return render_template('auth/change-password.html',form=form)
             
 #重设密码
@@ -119,9 +119,8 @@ def password_reset_request():#视图函数
         user=User.query.filter_by(email=form.email.data).first()#查询数据库email列中符合表单email数据的第一个用户
         if user:
             token=user.generate_reset_token()#在数据库模型中
-            send_email(user.email,'Reset Your Password','auth/email/reset_password',user=user,token=token,next=request.args.get('next'))
-        flash('An email with instructions to reset your password has been '
-              'sent to you.')   
+            send_email(user.email,'重置密码','auth/email/reset_password',user=user,token=token,next=request.args.get('next'))
+        flash('一封关于重置密码的邮件已经发送给你.')   
         return redirect(url_for('auth.login'))#如果成功，就去登录界面
     return render_template('auth/reset-password.html',form=form) 
     
@@ -135,7 +134,7 @@ def password_reset(token):
         if user is None:#没有注册
             return redirect(url_for('main.index'))#你走开
         if user.reset_password(token,form.password.data):#数据模型更行成功
-            flash('Your password has been updated.')#提示语
+            flash('密码重置成功.')#提示语
             return redirect(url_for('auth.login'))#定向登录界面
         else:
             return redirect(url_for('main.index'))#要不你走
@@ -150,21 +149,20 @@ def reset_email_address():
         if current_user.verify_password(form.password.data):#如果数据库中的密码哈希值等于表单中的
             new_email=form.email.data#记录新邮箱
             token=current_user.generate_email_change_token(new_email)#生成新令牌
-            send_email(new_email,'Confirm your email address','auth/email/change_email',user=current_user,token=token)
-        flash('An email with instructions to confirm your emailaddress has been '
-              'sent to you.')   
+            send_email(new_email,'确认邮箱地址','auth/email/change_email',user=current_user,token=token)
+        flash('一封关于重置邮箱的邮件已经发送给你.')   
         return redirect(url_for('main.index'))#如果成功，就去登录主留言、博客界面
     else:
-        flash('Invalid email or password') 
+        flash('邮箱或密码不正确') 
     return render_template('auth/change-email.html',form=form)
     
 @auth.route('/change-email/<token>')
 @login_required
 def change_email(token):
     if current_user.change_email(token):
-        flash('Your email address has been updated.')
+        flash('邮箱地址已更新.')
     else:
-        flash('Invalid request.')
+        flash('请求失败.')
     return redirect(url_for('main.index')) 
             
             

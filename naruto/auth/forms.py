@@ -9,43 +9,43 @@ from wtforms import ValidationError
 from ..models import User
 
 class LoginForm(Form):
-    email=StringField('Email',validators=[Required(),Length(1,64),Email()])
-    password=PasswordField('password',validators=[Required()])
-    remember_me=BooleanField('Keep me logged in')
-    submit=SubmitField('Log In')
+    email=StringField('邮箱',validators=[Required(),Length(1,64),Email()])
+    password=PasswordField('密码',validators=[Required()])
+    remember_me=BooleanField('记住我')
+    submit=SubmitField('登录')
     
 class RegistrationForm(Form):
-    email=StringField('Email',validators=[Required(),Length(1,64),Email()])
-    username=StringField('Username',validators=[Required(),Length(1,64),Regexp('^[A-Za-z][a-zA-Z_.]*$',0,'Usernames must have only\                         letters,numbers,dots or underscores')])
-    password=PasswordField('Password',validators=[Required(),EqualTo('password2',message='Passwords must math.')])
-    password2=PasswordField('Confirm password',validators=[Required()])
-    submit=SubmitField('Register')
+    email=StringField('邮箱',validators=[Required(),Length(1,64),Email()])
+    username=StringField('昵称',validators=[Required(),Length(1,64),Regexp('^[A-Za-z][a-zA-Z_.]*$',0,'用户名必须使用字母打头,后面接字母、数字、点、下划线等')])
+    password=PasswordField('密码',validators=[Required(),EqualTo('password2',message='Passwords must math.')])
+    password2=PasswordField('确认密码',validators=[Required()])
+    submit=SubmitField('注册')
     
     def validate_email(self,field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError('邮箱已经注册.')
             
     def validate_username(self,field):
         if User.query.filter_by(username=field.data).first():
-            raise ValidationError('Username already in use.')
+            raise ValidationError('用户名已经注册.')
             
 class ChangePasswordForm(Form): 
-    old_password=StringField('Old password',validators=[Required()])           
-    password=StringField('New Password',validators=[Required(),Length(1,64),EqualTo('password2',message='Password must match.')])        
-    password2=StringField('Confirm Password',validators=[Required(),Length(1,64)])  
-    submit=SubmitField('update')  
+    old_password=StringField('旧密码',validators=[Required()])           
+    password=StringField('新密码',validators=[Required(),Length(1,64),EqualTo('password2',message='Password must match.')])        
+    password2=StringField('确认密码',validators=[Required(),Length(1,64)])  
+    submit=SubmitField('更新')  
     
 #重设密码表单
 class PasswordResetRequestForm(Form):
-    email=StringField('Email',validators=[Required(),Length(1,64),Email()])
+    email=StringField('邮箱',validators=[Required(),Length(1,64),Email()])
     submit=SubmitField('重设密码')
 
 
 
 class PasswordResetForm(Form):
-    email=StringField('Email',validators=[Required(),Length(1,64),Email()])  
-    password=PasswordField('New Password',validators=[Required(),EqualTo('password2',message='Password must match')])
-    password2=PasswordField('Confirm Password',validators=[Required()])
+    email=StringField('邮箱',validators=[Required(),Length(1,64),Email()])  
+    password=PasswordField('密码',validators=[Required(),EqualTo('password2',message='Password must match')])
+    password2=PasswordField('确认密码',validators=[Required()])
     submit=SubmitField('重设密码') 
     
     def validate_email(self,field):
@@ -55,8 +55,8 @@ class PasswordResetForm(Form):
 #重设邮件地址
                
 class EmailaddressResetForm(Form):      
-    email=StringField('New_Email',validators=[Required(),Length(1,64),Email()])
-    password=PasswordField('Password',validators=[Required()])  
+    email=StringField('新邮箱',validators=[Required(),Length(1,64),Email()])
+    password=PasswordField('密码',validators=[Required()])  
     submit=SubmitField('重设邮箱') 
     
     def validate_email(self,field):

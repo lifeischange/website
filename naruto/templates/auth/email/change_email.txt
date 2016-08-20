@@ -1,7 +1,7 @@
 
 Dear {{ user.username }},
 To change your email click on the following link:
-{{ url_for('reset_email_address', token=token, _external=True) }}
+{{ url_for('auth.reset_email_address', token=token, _external=True) }}
 If you have not requested a email change  simply ignore this message.
 Sincerely,
 The Flasky Team
