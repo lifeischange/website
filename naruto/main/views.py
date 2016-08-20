@@ -2,6 +2,12 @@
 
 #这是蓝本的视图处理文件
 
+import sys
+default_encoding = 'utf-8'
+if sys.getdefaultencoding() != default_encoding:
+    reload(sys)
+    sys.setdefaultencoding(default_encoding)
+
 #扩展包
 from datetime import datetime
 from flask import render_template,session,redirect,url_for,flash,abort,request,make_response,current_app

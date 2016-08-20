@@ -1,7 +1,7 @@
 {%macro pagination_widget(pagination,endpoint)%}
 <ul class="pagination">
     <li{%if not pagination.has_prev%} class="disabled"{%endif%}>
-        <a href="{%if pagination.has_prev%}{{url_for(endpoint,page=pagination.page-1,**kwargs)}}{%else%}#{%endif%}"> <!--超链接断言-->
+        <a href="{%if pagination.has_prev%}{{url_for(endpoint,page=pagination.page-1,**kwargs)}}{%else%}#{%endif%}"> <!--瓒呴摼鎺ユ柇瑷€-->
         &laquo
         </a>
     </li>

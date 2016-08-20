@@ -13,7 +13,7 @@
                     {{comment.author.username}}</a></div>
             <div class="comment-body">
                 {%if comment.disabled%}
-                    <p><i>ÕâÌõÆÀÂÛÒÑ¾­±»¹ÜÀíÔ±½ûÖ¹.</i></p>
+                    <p><i>è¿™æ¡è¯„è®ºå·²ç»è¢«ç®¡ç†å‘˜ç¦æ­¢.</i></p>
                 {%endif%}
                 {%if moderate or not comment.disabled%}
                     {%if comment.body_html%}
@@ -26,9 +26,9 @@
             {%if moderate%}
                 <br>
                 {%if comment.disabled%}
-                    <a class="btn btn-default btn-xs" href="{{url_for('.moderate_enable',id=comment.id,page=page)}}">½ûÖ¹</a>
+                    <a class="btn btn-default btn-xs" href="{{url_for('.moderate_enable',id=comment.id,page=page)}}">ç¦æ­¢</a>
                 {%else%}
-                <a class="btn btn-danger btn-xs" href="{{url_for('.moderate_disable',id=comment.id,page=page)}}">¿ª·Å</a>
+                <a class="btn btn-danger btn-xs" href="{{url_for('.moderate_disable',id=comment.id,page=page)}}">å¼€æ”¾</a>
                 {%endif%}
             {%endif%}
         </div>
