@@ -34,10 +34,10 @@
             {%endif%}
         {%endif%}
         <a href="{{url_for('.followers',username=user.username)}}">
-            偶像:<span class="badge">{{user.follower.count()-1}}</span>
+            粉丝:<span class="badge">{{user.follower.count()-1}}</span>
         </a>
         <a href="{{url_for('.followed_by',username=user.username)}}">
-            粉丝:<span class="badge">{{user.followed.count()-1}}</span>
+            偶像:<span class="badge">{{user.followed.count()-1}}</span>
         </a>
         {%if current_user.is_authenticated() and user!=current_user and user.is_following(current_user)%}
             |<span class="label label-default">关注你的人</span>
@@ -56,6 +56,12 @@
         </a>
     {%endif%}     
     </p>
+    <p>
+    {%if current_user.is_administrator()%}
+        <a class="btn btn-danger" href="{{ url_for('auth.delete_account_admin',id=user.id)}}">
+            注销账户[管理员]
+        </a>
+    {%endif%}   
     <h>{{user.username}}的文章</h3>
     {%include '_posts.html'%}
     {%if pagination%}

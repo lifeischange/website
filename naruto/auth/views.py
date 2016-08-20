@@ -12,7 +12,7 @@ from flask import render_template,redirect,request,url_for,flash
 from flask_login import login_user,logout_user,login_required,current_user
 from . import auth
 from ..models import User
-from .forms import LoginForm,RegistrationForm,ChangePasswordForm,PasswordResetRequestForm,PasswordResetForm,EmailaddressResetForm
+from .forms import LoginForm,RegistrationForm,ChangePasswordForm,PasswordResetRequestForm,PasswordResetForm,EmailaddressResetForm,DeleteAccountForm,DeleteAccountAdminForm
 from ..email import send_email
 from .. import db
 from datetime import datetime
@@ -165,9 +165,33 @@ def change_email(token):
         flash('请求失败.')
     return redirect(url_for('main.index')) 
             
+#注销账户
+@auth.route('/delete_account',methods=['GET','POST'])
+@login_required
+def delete_account():
+    form=DeleteAccountForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            db.session.delete(current_user)
+            flash('账户已注销.')
+            return redirect(url_for('main.index'))
+        else:
+            flash('原密码不正确')
+    return render_template('auth/delete_account.html',form=form)            
             
-            
-            
+#管理员编辑路由        
+@main.route('/delete_account_admin/<int:id>',methods=['GET','POST'])
+@login_required
+@admin_required
+def delete_account_admin(id):
+    user=User.query.get_or_404(id)
+    form=DeleteAccountAdminForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            db.session.delete(user)
+            flash('账户已注销.')
+        return redirect(url_for('main.index'))
+    return render_template('auth/delete_account_admin.html',form=form)               
             
             
             

@@ -238,6 +238,7 @@ class User(UserMixin,db.Model):
     def is_followed_by(self,user):
         return self.follower.filter_by(follower_id=user.id).first() is not None
         
+        
     #认证令牌
     def generate_auth_token(self,expiration):
         s=Serializer(current_app.config['SECRET_KEY'],expires_in=expiration)

@@ -64,7 +64,15 @@ class EmailaddressResetForm(Form):
             raise ValidationError('邮箱地址已存在')
             
             
-            
+
+#注销账户            
+class DeleteAccountForm(Form):
+    old_password=StringField('旧密码',validators=[Required()])
+    submit=SubmitField('确认注销')        
+        
+class DeleteAccountAdminForm(Form):
+    old_password=StringField('旧密码',validators=[Required()])
+    submit=SubmitField('确认注销')             
             
             
             
