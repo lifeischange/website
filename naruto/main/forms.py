@@ -47,16 +47,7 @@ class CommentForm(Form):
     body=StringField('',validators=[Required()])
     submit=SubmitField('提交')
 
-#注销账户            
-class DeleteAccountForm(Form):
-    old_password=StringField('旧密码',validators=[Required()])
-    submit=SubmitField('确认注销')        
-        
-class DeleteAccountAdminForm(Form):
-    old_password=StringField('旧密码',validators=[Required()])
-    submit=SubmitField('确认注销')        
-        
-        
+
         
         
         
