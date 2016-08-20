@@ -180,7 +180,7 @@ def delete_account():
     return render_template('auth/delete_account.html',form=form)            
             
 #管理员编辑路由        
-@main.route('/delete_account_admin/<int:id>',methods=['GET','POST'])
+@auth.route('/delete_account_admin/<int:id>',methods=['GET','POST'])
 @login_required
 @admin_required
 def delete_account_admin(id):
