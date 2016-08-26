@@ -50,7 +50,7 @@
             编辑资料[管理员]
         </a>
     {%endif%}  
-    {%if user==current_user%}
+    {%if user==current_user and not current_user.is_administrator()%}
         <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
             编辑资料
         </a>
@@ -62,7 +62,7 @@
             注销账户[管理员]
         </a>
     {%endif%}
-    {%if current_user.is_authenticated()%}
+    {%if current_user.is_authenticated() and not current_user.is_administrator()%}
         <a class="btn btn-default" href="{{url_for('auth.delete_account')}}">注销账户</a>
     {%endif%}    
     </p>   
