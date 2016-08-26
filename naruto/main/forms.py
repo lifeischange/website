@@ -13,7 +13,7 @@ class PostForm(Form):
     submit=SubmitField('发表文章')
 #普通用户资料表单   
 class EditProfileForm(Form):
-    username=StringField('新昵称',validators=[Length(0,64),Regexp('^[^0-9][a-zA-Z0-9_.]*$',0,'第一个字符不能是数字，那样太丑！')])
+    username=StringField('新昵称',validators=[Length(0,64),Regexp('^[^0-9].*$',0,'第一个字符不能是数字，那样太丑！')])
     name=StringField('真实姓名',validators=[Length(0,64)])
     location=StringField('坐标',validators=[Length(0,64)])
     about_me=TextAreaField('我的信息')
@@ -22,10 +22,10 @@ class EditProfileForm(Form):
 #管理员资料表单
 class EditProfileAdminForm(Form):
     email=StringField('邮箱地址',validators=[Required(),Length(1,64),Email()])
-    username=StringField('昵称',validators=[Required(),Length(1,64),Regexp('^[^0-9][a-zA-Z0-9_.]*$',0,'第一个字符不能是数字，那样太丑！')])
+    username=StringField('昵称',validators=[Required(),Length(1,64),Regexp('^[^0-9].*$',0,'第一个字符不能是数字，那样太丑！')])
     confirmed=BooleanField('确认')
     role=SelectField('角色',coerce=int)
-    name=StringField('真是姓名',validators=[Length(0,64)])
+    name=StringField('真实姓名',validators=[Length(0,64)])
     location=StringField('坐标',validators=[Length(0,64)])
     about_me=TextAreaField('我的信息')
     submit=SubmitField('提交')

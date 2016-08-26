@@ -24,16 +24,18 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">个人主页</a></li>
+                {%if current_user.is_authenticated()%}
+                    <li><a href="{{url_for('main.user',username=current_user.username)}}">个人资料</a>
+                {%endif%}
             </ul>       
             <ul class="nav navbar-nav navbar-right">
-                {%if current_user.is_authenticated()%}
-                <li class='dropdown'>
-                    {%if current_user.can(Permission.MODERATE_COMMENTS)%}
+                {%if current_user.can(Permission.MODERATE_COMMENTS)%}
                         <li><a href="{{url_for('main.moderate')}}">管理评论</a></li>
-                    {%endif%}
+                {%endif%}
+                {%if current_user.is_authenticated()%}
+                <li class='dropdown'>  
                     <a href='#' class="dropdown-toggle" data-toggle='dropdown'><img src="{{current_user.gravatar(size=20)}}">个人账户<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{url_for('main.user',username=current_user.username)}}">个人资料</a>
                         <li><a href="{{url_for('auth.change_password')}}">修改密码</a></li>                        
                         <li><a href="{{url_for('auth.reset_email_address')}}">重置邮箱</a></li>
                         <li><a href="{{url_for('auth.logout')}}">退出账户</a></li>
