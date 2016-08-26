@@ -39,7 +39,9 @@
                         <li><a href="{{url_for('auth.reset_email_address')}}">重置邮箱</a></li>
                         <li><a href="{{url_for('auth.logout')}}">退出账户</a></li>
                     </ul>
-                        <a href="{{url_for('auth.delete_account')}}">注销账户</a></li>
+                
+                        <li><a href="{{url_for('auth.delete_account')}}">注销账户</a></li>
+                </li>
                 {%else%}
                 <li><a href="{{url_for('auth.login')}}">登录</a></li>
                 {%endif%}
