@@ -13,6 +13,7 @@ class PostForm(Form):
     submit=SubmitField('发表文章')
 #普通用户资料表单   
 class EditProfileForm(Form):
+    username=StringField('新昵称'，validators=[Length(0,64)])
     name=StringField('真实姓名',validators=[Length(0,64)])
     location=StringField('坐标',validators=[Length(0,64)])
     about_me=TextAreaField('我的信息')

@@ -57,12 +57,14 @@ def user(username):
 def edit_profile():
     form=EditProfileForm()
     if form.validate_on_submit():
+        current_user.username=form.username.data
         current_user.name=form.name.data
         current_user.location=form.location.data
         current_user.about_me=form.about_me.data
         db.session.add(current_user)
         flash('你的资料已更新.')
         return redirect(url_for('.user',username=current_user.username))
+    form.username.data=current_user.username
     form.name.data=current_user.name
     form.location.data=current_user.location
     form.about_me.data=current_user.about_me
@@ -109,7 +111,7 @@ def edit(id):
         post.body=form.body.data
         db.session.add(post)
         flash('文章已更新.')
-        return redirect(url_for('.post',id=post.id))
+        return redirect(url_for('.index',id=post.id))
     form.body.data=post.body
     return render_template('edit_post.html',form=form)
     
